@@ -1,6 +1,7 @@
 $(document).ready(function(){
     //Fetch All Records
    function loadTable(){
+    $("#load-table").html("");
     $.ajax({
         url: "http://localhost/php_project/php-ajax-rest-api/api-fetch-all.php",
         type: "GET",
@@ -25,7 +26,23 @@ $(document).ready(function(){
    }
 
    loadTable();
-   
+
+    function message(message, status){
+        if(status == false){
+            $("#error-message").html(message).slideDown();
+            $("#success-message").slideUp();
+            setTimeout(function(){
+                $("#error-message").slideUp();
+            },4000);
+        }else if(status == true){
+            $("#success-message").html(message).slideDown();
+            $("#error-message").slideUp();
+            setTimeout(function(){
+                $("#success-message").slideUp();
+            },4000);
+        }
+    }
+
     //Convert From Data Array to Json
     function jsonData(targetForm){
         var data_arr = $(targetForm).serializeArray();
@@ -44,7 +61,22 @@ $(document).ready(function(){
     $("#save-button").on("click", function(e){
         e.preventDefault();
         var jsonObj = jsonData("#addForm");
-        console.log(jsonObj);
+        if(jsonObj == false){
+            message("All fields are required", false);
+        }else{
+            $.ajax({
+                url: "http://localhost/php_project/php-ajax-rest-api/api-insert.php",
+                type: "POST",
+                data: jsonObj,
+                success: function(data){
+                    message(data.message, data.status);
+                    if(data.status == true){
+                        $("#addForm").trigger("reset");
+                        loadTable();
+                    }
+                }
+            });
+        }
         
     });
     //Delete Record

@@ -5,14 +5,14 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-headers: Access-Control-Allow-headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 $data = json_decode(file_get_contents("php://input") ,true);
-$std_id = $data['u_id'];
-$std_name = $data['u_name'];
-$std_age = $data['u_age'];
-$std_city = $data['u_city'];
+
+$std_name = $data['sname'];
+$std_age = $data['sage'];
+$std_city = $data['scity'];
 
 include "config.php";
 
-$sql = "INSERT INTO users(p_name, p_age, p_gender, p_country) VALUES('{$std_name}',{$std_age},'{$std_gender}','{$std_country}')";
+$sql = "INSERT INTO users(user_name, user_age, user_city) VALUES('{$std_name}',{$std_age},'{$std_city}')";
 
 if(mysqli_query($conn, $sql)){
     echo json_encode(['message'=>'Insert Data Successfully', 'status'=>true]);
