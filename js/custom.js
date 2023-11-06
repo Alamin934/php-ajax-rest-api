@@ -27,6 +27,7 @@ $(document).ready(function(){
 
    loadTable();
 
+    // Error and success Message
     function message(message, status){
         if(status == false){
             $("#error-message").html(message).slideDown();
@@ -105,6 +106,26 @@ $(document).ready(function(){
         $("#modal").hide();
     });
     //Update Record
-
+    $("#edit-submit").on("click", function(e){
+        e.preventDefault();
+        var jsonObj = jsonData("#edit-form");
+        if(jsonObj == false){
+            message("All fields are required", false);
+        }else{
+            $.ajax({
+                url: "http://localhost/php_project/php-ajax-rest-api/api-update.php",
+                type: "PUT",
+                data: jsonObj,
+                success: function(data){
+                    message(data.message, data.status);
+                    if(data.status == true){
+                        $("#modal").hide();
+                        loadTable();
+                    }
+                }
+            });
+        }
+        
+    });
     //Live Search Record
 });
