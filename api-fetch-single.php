@@ -7,7 +7,7 @@ $std_id = $data['sid'];
 
 include "config.php";
 
-$sql = "SELECT * FROM users WHERE p_id = {$std_id}";
+$sql = "SELECT * FROM users WHERE user_id = {$std_id}";
 $query = mysqli_query($conn, $sql) or die("Query Unsuccessfull");
 
 if(mysqli_num_rows($query) > 0){
