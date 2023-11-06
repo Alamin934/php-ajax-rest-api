@@ -5,11 +5,10 @@ header("Access-Control-Allow-Methods: PUT");
 header("Access-Control-Allow-headers: Access-Control-Allow-headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 $data = json_decode(file_get_contents("php://input") ,true);
-$std_id = $data['s_id'];
-$std_name = $data['s_name'];
-$std_age = $data['s_age'];
-$std_gender = $data['s_gender'];
-$std_country = $data['s_country'];
+$std_id = $data['u_id'];
+$std_name = $data['u_name'];
+$std_age = $data['u_age'];
+$std_city = $data['u_city'];
 
 include "config.php";
 

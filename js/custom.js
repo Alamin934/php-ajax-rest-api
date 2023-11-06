@@ -25,9 +25,28 @@ $(document).ready(function(){
    }
 
    loadTable();
-
+   
+    //Convert From Data Array to Json
+    function jsonData(targetForm){
+        var data_arr = $(targetForm).serializeArray();
+        var data_obj = {};
+        for(const single_arr of data_arr){
+            if(single_arr.value == ""){
+                return false;
+            }
+            data_obj[single_arr.name] = single_arr.value;
+            
+        }
+        var json = JSON.stringify(data_obj);
+        return json;
+    }
     //Insert New Record
-
+    $("#save-button").on("click", function(e){
+        e.preventDefault();
+        var jsonObj = jsonData("#addForm");
+        console.log(jsonObj);
+        
+    });
     //Delete Record
 
     //Fetch Single Record : Show in Modal Box
