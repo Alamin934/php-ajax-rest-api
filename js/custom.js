@@ -8,7 +8,7 @@ $(document).ready(function(){
         success: function(data){
             if(data.status != false){
                 $.each(data, function(key, value){
-                    $("#load-table").append(`
+                    $("#load-table").slideDown().append(`
                     <tr>
                         <td class="center">${value.user_id}</td>
                         <td>${value.user_name}</td>
@@ -150,4 +150,38 @@ $(document).ready(function(){
         
     });
     //Live Search Record
+    $("#search").on("keyup", function(){
+        var search_data = $(this).val();
+        var search_obj = {"search" : search_data};
+        var search_json = JSON.stringify(search_obj);
+
+        $.ajax({
+            url: "http://localhost/php_project/php-ajax-rest-api/api-search.php",
+            type: "POST",
+            data: search_json,
+            success: function(data){
+                message(data.message, data.status);
+                $("#load-table").html("");
+                if(data.status != false){
+                    $.each(data, function(key, value){
+                        $("#load-table").append(`
+                        <tr>
+                            <td class="center">${value.user_id}</td>
+                            <td>${value.user_name}</td>
+                            <td>${value.user_age}</td>
+                            <td>${value.user_city}</td>
+                            <td class="center"><button class="edit-btn" data-eid="${value.user_id}">Edit</button></td>
+                            <td class="center"><button class="delete-btn" data-did="${value.user_id}">Delete</button></td>
+                        </tr>`);
+                    });
+                }else{
+                    message(data.message, data.status);
+                }
+            }
+        });
+        
+    });
+        
+
+
 });
