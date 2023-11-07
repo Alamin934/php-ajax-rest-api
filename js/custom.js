@@ -8,7 +8,7 @@ $(document).ready(function(){
         success: function(data){
             if(data.status != false){
                 $.each(data, function(key, value){
-                    $("#load-table").slideDown().append(`
+                    $("#load-table").append(`
                     <tr>
                         <td class="center">${value.user_id}</td>
                         <td>${value.user_name}</td>
@@ -62,9 +62,7 @@ $(document).ready(function(){
     $("#save-button").on("click", function(e){
         e.preventDefault();
         var jsonObj = jsonData("#addForm");
-        if(jsonObj == false){
-            message("All fields are required", false);
-        }else{
+        if(jsonObj != false){
             $.ajax({
                 url: "http://localhost/php_project/php-ajax-rest-api/api-insert.php",
                 type: "POST",
@@ -77,6 +75,8 @@ $(document).ready(function(){
                     }
                 }
             });
+        }else{
+            message("All fields are required", false);
         }
         
     });
@@ -160,7 +160,6 @@ $(document).ready(function(){
             type: "POST",
             data: search_json,
             success: function(data){
-                message(data.message, data.status);
                 $("#load-table").html("");
                 if(data.status != false){
                     $.each(data, function(key, value){
@@ -175,7 +174,7 @@ $(document).ready(function(){
                         </tr>`);
                     });
                 }else{
-                    message(data.message, data.status);
+                    $("#load-table").append(`<tr><td colspan="6" align="center"><h3>${data.message}</h3></td></tr>`);
                 }
             }
         });
