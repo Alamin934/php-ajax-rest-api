@@ -81,6 +81,28 @@ $(document).ready(function(){
         
     });
     //Delete Record
+    $(document).on("click", ".delete-btn", function(){
+        if(confirm("Do you want to delete this data?")){
+            var del_id = $(this).data("did");
+            var del_obj = {"d_id" : del_id};
+            var del_json = JSON.stringify(del_obj);
+
+            var row = this;
+            
+            $.ajax({
+                url: "http://localhost/php_project/php-ajax-rest-api/api-delete.php",
+                type: "DELETE",
+                data: del_json,
+                success: function(data){
+                    message(data.message, data.status);
+
+                    if(data.status == true){
+                        $(row).closest("tr").fadeOut();
+                    }
+                }
+            });
+        }
+    });
 
     //Fetch Single Record : Show in Modal Box
     $(document).on("click", ".edit-btn", function(){
